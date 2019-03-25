@@ -13,7 +13,7 @@ RUN groupmod -g ${WEB_GID} www-data
 RUN apt-get update \
     && apt-get install -y nano gettext-base git libmcrypt-dev mysql-client mcrypt apt-utils zlib1g-dev unzip libmemcached-dev libjpeg-dev libpng-dev \
     && pecl install memcached \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr \
+    && docker-php-ext-configure gd --with-jpeg-dir=/usr \
     && docker-php-ext-install mbstring tokenizer mysqli pdo_mysql zip sockets exif gd \
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
