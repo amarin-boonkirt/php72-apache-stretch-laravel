@@ -8,6 +8,8 @@ ARG LOCALE=en_US
 ARG WEB_UID=1000
 ARG WEB_GID=1000
 
+ENV TERM xterm
+
 RUN usermod -u ${WEB_UID} www-data
 RUN groupmod -g ${WEB_GID} www-data
 
