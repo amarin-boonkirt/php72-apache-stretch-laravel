@@ -16,6 +16,7 @@ RUN apt-get update \
     && pecl install memcached \
     && docker-php-ext-configure gd --with-jpeg-dir=/usr \
     && docker-php-ext-install mbstring tokenizer mysqli pdo_mysql zip sockets exif gd \
+    && a2enmod rewrite \
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 RUN sed -i "s/#\ ${LOCALE}\.UTF-8\ UTF-8/${LOCALE}.UTF-8\ UTF-8/g" /etc/locale.gen && locale-gen
