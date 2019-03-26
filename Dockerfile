@@ -1,5 +1,6 @@
 FROM php:7.2-apache-stretch
 
+ARG DEBIAN_FRONTEND=noninteractive
 WORKDIR "/var/www"
 
 # Fix debconf warnings upon build
@@ -14,11 +15,13 @@ RUN usermod -u ${WEB_UID} www-data
 RUN groupmod -g ${WEB_GID} www-data
 
 RUN apt-get update \
-    && apt-get install -y locales locales-all postfix nano gettext-base git libmcrypt-dev mysql-client mcrypt apt-utils zlib1g-dev unzip libmemcached-dev libjpeg-dev libpng-dev \
+    && apt-get install -y locales locales-all postfix nano gettext-base git libmcrypt-dev mysql-client mcrypt apt-utils zlib1g-dev unzip libmemcached-dev libmagickwand-dev libjpeg-dev libpng-dev \
     && pecl install memcached \
+    && pecl install imagick \
     && docker-php-ext-configure gd --with-jpeg-dir=/usr \
     && docker-php-ext-install mbstring tokenizer mysqli pdo_mysql zip sockets exif gd \
-    && a2enmod rewrite \
+    && docker-php-ext-enable imagick \
+    && a2enmod rewrite \    
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 RUN sed -i "s/#\ ${LOCALE}\.UTF-8\ UTF-8/${LOCALE}.UTF-8\ UTF-8/g" /etc/locale.gen && locale-gen
